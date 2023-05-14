@@ -5,7 +5,7 @@ from .models import Device
 class AddDeviceForm(forms.Form):
     mac_address_validator = RegexValidator(
         regex=r'^([0-9A-Fa-f]{2}[:-]){5}([0-9A-Fa-f]{2})$',
-        message='Invalid MAC address format'
+        message='Invalid MAC address format from model'
     )
 
     name = forms.CharField(max_length=10, required=True)

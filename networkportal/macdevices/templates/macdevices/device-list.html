@@ -21,70 +21,38 @@
   </tbody>
 </table>
 <div>
-  <a href="{% url 'add_device' %}" class="btn btn-primary">Add Device</a>
+  <!-- <a href="{% url 'add_device' %}" class="btn btn-primary">Add Device</a> -->
+  <button id="add-device-button" class="btn btn-primary">Add Device</button>
+
 </div>
-
-<!-- <h2>List Of Devices from Database</h2>
-
-<div id="api-key-form">
-  <label for="api-key-input">API Key:</label>
-  <input type="text" id="api-key-input">
-  <button id="api-key-submit">Submit</button>
-</div>
-
-<div id="messages"></div>
-
-<table id="devices-table" class="table">
-  <thead>
-    <tr>
-      <th>Device Name</th>
-      <th>MAC Address</th>
-      <th>Created at</th>
-    </tr>
-  </thead>
-  <tbody>
-  </tbody>
-</table>
-
 
 <script>
   $(document).ready(function() {
-    var devicesTable = $('#devices-table');
-    var messagesDiv = $('#messages');
-
-    // function to load devices into the table
-    function loadDevices(apiKey) {
+    // Show the modal dialog when the "Add Device" button is clicked
+    $('#add-device-button').click(function() {
+      // Send an AJAX request to the server to verify the API key
       $.ajax({
-        url: '/devicelist/',
-        type: 'GET',
-        beforeSend: function(xhr) {
-          xhr.setRequestHeader('Authorization', 'ApiKey ' + apiKey);
+        // url: "/verify_api_key/",
+        url : "{% url 'verify_api_key' %}",
+        data: {
+          api_key: '{{ api_key|safe }}'
         },
-        success: function(response) {
-          // clear the table
-          devicesTable.find('tbody').empty();
-
-          // populate the table with devices data
-          for (var i = 0; i < response.length; i++) {
-            var device = response[i];
-            devicesTable.find('tbody').append('<tr><td>' + device.name + '</td><td>' + device.mac_address + '</td><td>' + device.created_at + '</td></tr>');
+        success: function(data) {
+          if (data['is_valid']) {
+            // If the API key is valid, redirect to the "add device" page
+            window.location.href = "{% url 'add_device' %}";
+          } else {
+            // If the API key is invalid, show an error message
+            alert('You are not authorized to perform this action.');
           }
         },
-        error: function(response) {
-          messagesDiv.html('<div class="alert alert-danger">' + response.responseJSON.detail + '</div>');
+        error: function() {
+          // If there is an error, show an error message
+          alert('There was an error verifying your API key. Please try again later.');
         }
       });
-    }
-
-    // handle form submission for API key authorization
-    $('#api-key-form').submit(function(event) {
-      event.preventDefault();
-
-      var apiKey = $('#api-key-input').val();
-
-      loadDevices(apiKey);
     });
   });
-</script> -->
+  </script>
 
 {% endblock %}
