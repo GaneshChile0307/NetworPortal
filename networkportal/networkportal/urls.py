@@ -26,7 +26,6 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path , include
 
-print("url project")
 urlpatterns = [
     path('macdevices/', include('macdevices.urls'))
 ]
