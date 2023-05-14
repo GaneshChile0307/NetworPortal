@@ -15,5 +15,8 @@ from django.shortcuts import render
 #     return HttpResponse(f'Device saved successfully!')
 
 def device_list(request):
+    new_record = Device(name='test', mac_address='10:48:48:df48')
+    new_record.save()
     devices = Device.objects.all()
-    return render(request, 'devices/device_list.html', {'devices': devices})
+    context = {'devices': devices}
+    return render(request,'macdevices/base.html',context) 
