@@ -1,20 +1,26 @@
 {% extends 'macdevices/base.html' %}
 {% block content %}
 
-  <h2>Add New Device</h2>
-  <form id="add-device-form">
-    <div class="form-group">
-      <label for="name">Name:</label>
-      <input type="text" class="form-control" id="name" name="name">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-md-6">
+        <h2>Add New Device</h2>
+        <form id="add-device-form">
+          {% csrf_token %}
+          <div class="form-group">
+            <label for="name">Name:</label>
+            <input type="text" class="form-control" id="name" name="name" required>
+          </div>
+          <div class="form-group">
+            <label for="mac_address">MAC Address:</label>
+            <input type="text" class="form-control" id="mac_address" name="mac_address" required>
+          </div>
+          <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+        <div id="messages" class="mt-3"></div>
+      </div>
     </div>
-    <div class="form-group">
-      <label for="mac_address">MAC Address:</label>
-      <input type="text" class="form-control" id="mac_address" name="mac_address">
-    </div>
-    <button type="submit" class="btn btn-primary">Submit</button>
-  </form>
-
-  <div id="messages"></div>
+  </div>
 
   <script>
     $(document).ready(function() {
@@ -23,8 +29,6 @@
 
         var name = $("#name").val();
         var mac_address = $("#mac_address").val();
-        
-
         $.ajax({
           url: "{% url 'add_device' %}",
           type: "POST",
@@ -34,6 +38,9 @@
           },
           success: function(response) {
             $("#messages").html("<div class='alert alert-success'>" + response.message + "</div>");
+            setTimeout(function() {
+              window.location.href = "{% url 'device_list' %}";
+            }, 1000);
           },
           error: function(response) {
             $("#messages").html("<div class='alert alert-danger'>" + response.responseJSON.message + "</div>");
@@ -43,4 +50,3 @@
     });
   </script>
 {% endblock %}
-

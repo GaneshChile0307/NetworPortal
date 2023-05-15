@@ -23,8 +23,6 @@ class AddDevice(APIView):
         if form.is_valid():
             name = form.cleaned_data['name']
             mac_address = form.cleaned_data['mac_address']
-            # if not re.match('^([0-9A-Fa-f]{2}[:-]){5}([0-9A-Fa-f]{2})$', mac_address):
-            #     return JsonResponse({'success': False, 'message': 'Invalid MAC address format'})
             device = Device(name=name, mac_address=mac_address)
             device.save()
             return JsonResponse({'message': 'Device added successfully.'})
@@ -36,7 +34,7 @@ class AddDevice(APIView):
         
     def get(self, request):
         form = AddDeviceForm()
-        return render(request, 'macdevices/add_device.html', {'form': form})
+        return render(request, 'macdevices/add_device.html')
 
 class VerifyAPIKey(APIView):
     def get(self, request):

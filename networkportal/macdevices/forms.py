@@ -10,7 +10,3 @@ class AddDeviceForm(forms.Form):
 
     name = forms.CharField(max_length=10, required=True)
     mac_address = forms.CharField(max_length=17, required=True,validators=[mac_address_validator])
-
-    class Meta:
-        model = Device
-        fields = ['name', 'mac_address']
