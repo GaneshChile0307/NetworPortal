@@ -38,7 +38,7 @@
         $.ajax({
           url: "{% url 'verify_api_key' %}",
           data: {
-            api_key: '{{ api_key|safe }}'
+            api_key: '{{ api_key }}'
           },
           success: function(data) {
             if (data.is_valid) {
